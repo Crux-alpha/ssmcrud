@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>员工列表</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/bootstrap-3.4.1-dist/css/bootstrap.min.css}"/>
+    <script type="text/javascript" th:src="@{/static/js/jquery-3.6.0.js}"></script>
+    <script type="text/javascript" th:src="@{/static/bootstrap-3.4.1-dist/js/bootstrap.min.js}"></script>
+</head>
+<body>
+    <div class="container">
+        <!--标题-->
+        <div class="row">
+            <div class="col-md-12">
+                <h1>SSM-CRUD</h1>
+            </div>
+        </div>
+        <!--新增/删除按钮-->
+        <div class="row">
+            <div class="col-md-4 col-md-offset-10">
+                <button class="btn btn-primary" type="button">新增</button>
+                <button class="btn btn-danger" type="button">删除</button>
+            </div>
+        </div>
+        <!--表格数据-->
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-hover">
+                    <tr>
+                        <th>#</th>
+                        <th>姓名</th>
+                        <th>性别</th>
+                        <th>邮箱</th>
+                        <th>部门</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr th:each="employee : ${pageInfo.getList()}" th:object="${employeeStat.current}">
+                        <td th:text="*{empId}"></td>
+                        <td th:text="*{empName}"></td>
+                        <td th:text="*{gender == 'M'} ? '男' : '女'"></td>
+                        <td th:text="*{email}"></td>
+                        <td th:text="*{dept.deptName}"></td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" type="button">
+                                <span class="glyphicon glyphicon-pencil"></span>修改
+                            </button>
+                            <button class="btn btn-danger btn-sm" type="button">
+                                <spam class="glyphicon glyphicon-trash"></spam>删除
+                            </button>
+                        </td>
+                    </tr>
+                    <!--
+                    <tr>
+                        <td>1</td>
+                        <td>张三</td>
+                        <td>男</td>
+                        <td>zhangsan@sina.com</td>
+                        <td>开发部</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" type="button">
+                                <span class="glyphicon glyphicon-pencil"></span>修改
+                            </button>
+                            <button class="btn btn-danger btn-sm" type="button">
+                                <spam class="glyphicon glyphicon-trash"></spam>删除
+                            </button>
+                        </td>
+                    </tr>
+                    -->
+                </table>
+            </div>
+        </div>
+        <!--分页信息-->
+        <div class="row" th:object="${pageInfo}">
+            <!--分页文字信息-->
+            <div class="col-md-6" th:text="|当前第*{pageNum}页,共*{pages}页,*{total}条记录|">
+            </div>
+            <!--分页条信息-->
+            <div class="col-md-6">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li th:class="*{isFirstPage} ? disabled">
+                            <a th:if="*{isFirstPage}">首页</a>
+                            <a th:unless="*{isFirstPage}" th:href="@{/list.html(pageNum=1)}">首页</a>
+                        </li>
+                        <li th:class="*{hasPreviousPage} ? disabled">
+                            <a th:if="*{hasPreviousPage}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                            <a th:unless="*{hasPreviousPage}" th:href="@{/list.html(pageNum=1)}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <!--<li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>-->
+                        <li th:each="num : *{navigatepageNums}" th:class="${numStat.current==pageInfo.getPageNum()} ? active" th:switch="${numStat.current}">
+                            <a th:case="*{pageNum}" th:text="${num}"></a>
+                            <a th:case="*" th:href="@{/list.html(pageNum=${num})}" th:text="${num}"></a>
+                        </li>
+                        <li th:class="*{hasNextPage} ? disabled">
+                            <a th:if="*{hasNextPage}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                            <a th:unless="*{hasNextPage}" th:href="@{/list.html(pageNum=*{pageNum + 1})}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        <li th:class="*{isLastPage} ? disabled">
+                            <a th:if="*{isLastPage}">末页</a>
+                            <a th:unless="*{isLastPage}" th:href="@{/list.html(pageNum=*{pages})}">末页</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

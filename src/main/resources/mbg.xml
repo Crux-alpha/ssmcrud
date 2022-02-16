@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!--配置环境策略-->
+    <context id="mbg" targetRuntime="MyBatis3">
+        <!--数据源-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/ssm_crud"
+                        userId="root"
+                        password="SAIERHAO123"/>
+        <!--实体类生成路径-->
+        <javaModelGenerator targetPackage="com.crux.ssmcrud.bean" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!--mapper配置文件生成路径-->
+        <sqlMapGenerator targetPackage="mappers" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!--dao接口生成路径-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.crux.ssmcrud.dao" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+        <!--表与实体类映射关系-->
+        <table tableName="t_employee" domainObjectName="Employee"/>
+        <table tableName="t_department" domainObjectName="Department"/>
+    </context>
+</generatorConfiguration>
